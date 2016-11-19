@@ -1,4 +1,5 @@
 {
+  "_IMPORTANT":"rename this file to 'rss-config.json' when you have configured it",
   "_comment":"The feeds must provide the name, url, and the number of most recents to fetch, if you want all since the program was last run, put -1",
   "feeds":[
     {
