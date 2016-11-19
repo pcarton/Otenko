@@ -11,7 +11,6 @@ from email.mime.text import MIMEText
 
 lastrunFile = open("lastrunFile", 'r+')
 lastrun = pickle.load(lastrunFile)
-yesterday = datetime.datetime.timetuple(datetime.datetime.now()-datetime.timedelta(1))
 
 rssJSON = None
 
@@ -34,7 +33,7 @@ def getHighLowWeather():
     return (high,low,weather)
 
 def parseFeedItem(item):
-    if articleDate>yesterday:
+    if articleDate>lastrun:
         title = item.title.encode('ascii',"ignore")
         link = item.link.encode('ascii',"ignore")
     return(title, link)
@@ -67,7 +66,7 @@ def run():
         masterArr.append(tempArr)
     prepareEmail(masterArr)
     sendEmail()
-    lastrun = datetime.date.today()
+    lastrun = datetime.datetime.timetuple(datetime.datetime.now())
     pickle.dump(lastrun,lastrunFile)
     print("Last run at "+lastrun.strftime('%m/%d/%Y'))
 
