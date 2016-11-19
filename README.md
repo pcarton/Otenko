@@ -12,7 +12,7 @@ Those blocks look like this:
       "name": "",
       "url":"",
       "numMostRecent":-1
-    },
+},
 ~~~
 The comma at the end is not nessesary on the last block.
 Rename the file to 'rss-config.json' when you are done
