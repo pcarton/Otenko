@@ -22,3 +22,6 @@ Include the ip of your mail server (gmail works) and your username, password for
 The woeid is your location id as used for Yahoo api lookups.
 Also add the address you are sending from and the address you want the mail delivered to
 Finally, rename the file to 'config.py'
+
+###Final setup
+Also create a file named 'lastrunFile' with no extension in the directory of the scripts. This is what will store the last date run
