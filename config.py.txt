@@ -1,4 +1,4 @@
-server = "your email server here"
+serverName = "your email server here"
 username = "your username here"
 password = "your password here"
 woeid = "Insert woeid for you your location here"
