@@ -9,9 +9,15 @@ import pickle
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-lastrunFile = open("lastrunFile", r+)
+lastrunFile = open("lastrunFile", 'r+')
 lastrun = pickle.load(lastrunFile)
 yesterday = datetime.datetime.timetuple(datetime.datetime.now()-datetime.timedelta(1))
+
+rssJSON = None
+
+with open('rss-config.json', 'r') as file:
+    rssJSON = json.load(file);
+file.close()
 
 def getHighLowWeather():
     baseurl = "https://query.yahooapis.com/v1/public/yql?"
@@ -47,11 +53,20 @@ def parseFeed(feedURL, feedName, feedNumToRead):
             break
     return (feedArr)
 
+def prepareEmail(arr):
+    #TODO implement, use markup.py
+
 def sendEmail():
+    #TODO implement
 
 def run():
     global lastrun
-    #TODO implement the run method
+    masterArr = []
+    for feed in rssJSON["feeds"]:
+        tempArr = parseFeed(feed["url"], feed["name"], feed["numMostRecent"])
+        masterArr.append(tempArr)
+    prepareEmail(masterArr)
+    sendEmail()
     lastrun = datetime.date.today()
     pickle.dump(lastrun,lastrunFile)
     print("Last run at "+lastrun.strftime('%m/%d/%Y'))
