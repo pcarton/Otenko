@@ -23,7 +23,7 @@ except EOFError:
 
 rssJSON = None
 
-with open('rss-config.json', 'r') as file:
+with open('rss-config.json', 'r+') as file:
     rssJSON = json.load(file);
 file.close()
 
