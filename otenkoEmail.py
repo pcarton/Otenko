@@ -137,7 +137,7 @@ def run():
     msg += msgWeather+"\n"+msgFeeds
     sendEmail(htmlMsg, msg)
     lastrunFile = open("lastrunFile", 'wb')
-    lastrun = datetime.date.today()
+    lastrun = datetime.datetime.timetuple(datetime.datetime.now())
     pickle.dump(lastrun,lastrunFile)
     lastrunFile.close()
     print("Last run at "+datetime.datetime.now().strftime("%m/%d/%Y"))
