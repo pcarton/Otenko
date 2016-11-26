@@ -2,3 +2,4 @@ rss-config.json
 config.py
 *.pyc
 lastrunFile
+updateLastRun.py
