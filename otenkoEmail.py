@@ -14,12 +14,13 @@ from email.mime.text import MIMEText
 from config import serverName, username, password, woeid, fromaddr, toaddr
 from rssFeedClasses import rssFeed, rssItem
 
-lastrunFile = open("lastrunFile", 'r+b')
+lastrunFile = open("lastrunFile", 'rb')
 try:
     lastrun = pickle.load(lastrunFile)
 except EOFError:
     print("Couldn't read last run file, going with default of 1 day")
     lastrun = datetime.datetime.timetuple(datetime.datetime.now()-datetime.timedelta(1))
+lastrunFile.close()
 
 rssJSON = None
 
@@ -57,6 +58,7 @@ def getWeatherMsgs(high,low,weather):
     return htmlWeather, msgWeather
 
 def parseFeedItem(item):
+    global lastrun
     articleDate = item.published_parsed
     if articleDate>lastrun:
         title = item.title.encode('ascii',"ignore")
@@ -121,7 +123,7 @@ def sendEmail(htmlMsg, msg):
     server.quit()
 
 def run():
-    global lastrun
+    global lastrun, lastrunFile
     masterArr = []
     htmlMsg = "<html><head></head><body>"
     msg = ""
@@ -134,11 +136,11 @@ def run():
     htmlMsg += htmlWeather+htmlFeeds+"</body></html>"
     msg += msgWeather+"\n"+msgFeeds
     sendEmail(htmlMsg, msg)
-    lastrun = datetime.datetime.timetuple(datetime.datetime.now())
+    lastrunFile = open("lastrunFile", 'wb')
+    lastrun = datetime.date.today()
     pickle.dump(lastrun,lastrunFile)
+    lastrunFile.close()
     print("Last run at "+datetime.datetime.now().strftime("%m/%d/%Y"))
 
 print("Starting")
 run()
-
-lastrunFile.close()
