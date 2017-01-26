@@ -28,6 +28,7 @@ with open('rss-config.json', 'r+') as file:
     rssJSON = json.load(file);
 file.close()
 
+#TODO change this to the http://openweathermap.org/api since yahoo is unreliable
 def getHighLowWeather():
     baseurl = "https://query.yahooapis.com/v1/public/yql?"
     yql_query = "select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\""+woeid+"\")"
