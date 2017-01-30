@@ -41,7 +41,7 @@ def getHighLowWeather():
     low = forecast['main']['temp_min']
     weather = forecast[0]['description']
     high = high*(9/5)-459.67
-    low = low**(9/5)-459.67
+    low = low*(9/5)-459.67
     return (high,low,weather)
 
 def getWeatherMsgs(high,low,weather):
