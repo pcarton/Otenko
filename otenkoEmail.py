@@ -11,7 +11,7 @@ import pickle
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-from config import serverName, username, password, woeid, fromaddr, toaddr
+from config import serverName, username, password, woeid, fromaddr, toaddr, weatherAPI
 from rssFeedClasses import rssFeed, rssItem
 
 lastrunFile = open("lastrunFile", 'rb')
@@ -30,17 +30,18 @@ file.close()
 
 #TODO change this to the http://openweathermap.org/api since yahoo is unreliable
 def getHighLowWeather():
-    baseurl = "https://query.yahooapis.com/v1/public/yql?"
-    yql_query = "select * from weather.forecast where woeid in (select woeid from geo.places(1) where text=\""+woeid+"\")"
-    yql_url = baseurl + urllib.parse.urlencode({'q':yql_query}) + "&format=json"
-    result, headers = urllib.request.urlretrieve(yql_url)
+    baseurl = "api.openweathermap.org/data/2.5/weather?zip=30622,us"
+    fullurl = baseurl + "&APPID=" + weatherAPI
+    result, headers = urllib.request.urlretrieve(fullurl)
     print("Got Weather")
     with open(result) as weather:
         data = json.load(weather)
-    forecast = data['query']['results']['channel']['item']['forecast'][0]
-    high = forecast['high']
-    low = forecast['low']
-    weather = forecast['text']
+    forecast = data['weather']
+    high = forecast['main']['temp_max']
+    low = forecast['main']['temp_min']
+    weather = forecast[0]['description']
+    high = high*(9/5)-459.67
+    low = low**(9/5)-459.67
     return (high,low,weather)
 
 def getWeatherMsgs(high,low,weather):
@@ -54,7 +55,7 @@ def getWeatherMsgs(high,low,weather):
     htmlWeather+="<h2>Weather</h2>"
     htmlWeather+="<p>High is: "+ high+"<br>"
     htmlWeather+="Low is: "+ low+"<br>"
-    htmlWeather+="Conditions are: "+ weather+"<br></p>"
+    htmlWeather+=weather+"<br></p>"
 
     return htmlWeather, msgWeather
 
