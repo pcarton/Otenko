@@ -32,10 +32,9 @@ file.close()
 def getHighLowWeather():
     baseurl = "api.openweathermap.org/data/2.5/weather?zip=30622,us"
     fullurl = baseurl + "&APPID=" + weatherAPI
-    result, headers = urllib.request.urlretrieve(fullurl)
+    result = urllib.request.Request(fullurl, headers={})
+    data = urllib.request.urlopen(fullurl).read().decode('ascii','ignore')
     print("Got Weather")
-    with open(result) as weather:
-        data = json.load(weather)
     forecast = data['weather']
     high = forecast['main']['temp_max']
     low = forecast['main']['temp_min']
