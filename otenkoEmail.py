@@ -11,7 +11,7 @@ import pickle
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-from config import serverName, username, password, woeid, fromaddr, toaddr, weatherAPI
+from config import serverName, username, password, woeid, fromaddr, toaddr, weatherAPI, zipCode, countryCode
 from rssFeedClasses import rssFeed, rssItem
 
 lastrunFile = open("lastrunFile", 'rb')
@@ -30,7 +30,7 @@ file.close()
 
 #TODO change this to the http://openweathermap.org/api since yahoo is unreliable
 def getHighLowWeather():
-    baseurl = "http://api.openweathermap.org/data/2.5/forecast/daily?zip=30622,us&cnt=1"
+    baseurl = "http://api.openweathermap.org/data/2.5/forecast/daily?zip="+zipCode+","+countryCode"&cnt=1"
     fullurl = baseurl + "&APPID=" + weatherAPI
     result = urllib.request.Request(fullurl)
     resultJSON = urllib.request.urlopen(fullurl).read().decode('ascii','ignore')
