@@ -30,17 +30,20 @@ file.close()
 
 #TODO change this to the http://openweathermap.org/api since yahoo is unreliable
 def getHighLowWeather():
-    baseurl = "api.openweathermap.org/data/2.5/weather?zip=30622,us"
+    baseurl = "http://api.openweathermap.org/data/2.5/forecast/daily?zip=30622,us&cnt=1"
     fullurl = baseurl + "&APPID=" + weatherAPI
-    result = urllib.request.Request(fullurl, headers={})
-    data = urllib.request.urlopen(fullurl).read().decode('ascii','ignore')
+    result = urllib.request.Request(fullurl)
+    resultJSON = urllib.request.urlopen(fullurl).read().decode('ascii','ignore')
+    data = json.loads(resultJSON)
     print("Got Weather")
-    forecast = data['weather']
-    high = forecast['main']['temp_max']
-    low = forecast['main']['temp_min']
-    weather = forecast[0]['description']
-    high = high*(9/5)-459.67
-    low = low*(9/5)-459.67
+    #print(data)
+    high = data['list'][0]['temp']['max']
+    low = data['list'][0]['temp']['min']
+    weather = data['list'][0]['weather'][0]['description'].title()
+    high = high * (9/5) - 459.67
+    high = '{:.0f}'.format(high)
+    low = low * (9/5) - 459.67
+    low = '{:.0f}'.format(low)
     return (high,low,weather)
 
 def getWeatherMsgs(high,low,weather):
@@ -131,11 +134,11 @@ def run():
     for feed in rssJSON["feeds"]:
         tempObj = parseFeed(feed["url"], feed["name"], feed["numMostRecent"])
         masterArr.append(tempObj)
-    try:
-        high,low,weather = getHighLowWeather()
-    except:
-        print("Could not get forcast")
-        high,low,weather = "Not Available","Not Available","Not Available"
+    #try:
+    high,low,weather = getHighLowWeather()
+    #except:
+        #print("Could not get forcast")
+        #high,low,weather = "Not Available","Not Available","Not Available"
     htmlWeather, msgWeather = getWeatherMsgs(high,low,weather)
     htmlFeeds, msgFeeds = prepareEmail(masterArr)
     htmlMsg += htmlWeather+htmlFeeds+"</body></html>"
