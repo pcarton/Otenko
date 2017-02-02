@@ -30,7 +30,7 @@ file.close()
 
 #TODO change this to the http://openweathermap.org/api since yahoo is unreliable
 def getHighLowWeather():
-    baseurl = "http://api.openweathermap.org/data/2.5/forecast/daily?zip="+zipCode+","+countryCode"&cnt=1"
+    baseurl = "http://api.openweathermap.org/data/2.5/forecast/daily?zip="+zipCode+","+countryCode+"&cnt=1"
     fullurl = baseurl + "&APPID=" + weatherAPI
     result = urllib.request.Request(fullurl)
     resultJSON = urllib.request.urlopen(fullurl).read().decode('ascii','ignore')
