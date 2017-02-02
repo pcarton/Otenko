@@ -134,11 +134,11 @@ def run():
     for feed in rssJSON["feeds"]:
         tempObj = parseFeed(feed["url"], feed["name"], feed["numMostRecent"])
         masterArr.append(tempObj)
-    #try:
-    high,low,weather = getHighLowWeather()
-    #except:
-        #print("Could not get forcast")
-        #high,low,weather = "Not Available","Not Available","Not Available"
+    try:
+        high,low,weather = getHighLowWeather()
+    except:
+        print("Could not get forcast")
+        high,low,weather = "Not Available","Not Available","Not Available"
     htmlWeather, msgWeather = getWeatherMsgs(high,low,weather)
     htmlFeeds, msgFeeds = prepareEmail(masterArr)
     htmlMsg += htmlWeather+htmlFeeds+"</body></html>"
