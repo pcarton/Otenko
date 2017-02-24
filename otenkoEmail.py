@@ -1,4 +1,6 @@
 #!/usr/bin/python3.1
+
+#TODO make config in one file
 import urllib.request, urllib.error, urllib.parse, urllib.request, urllib.parse, urllib.error
 
 import json
