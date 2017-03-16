@@ -72,7 +72,8 @@ def parseFeedItem(item):
         print(item.link.encode('ascii',"ignore"))
     try:
         if articleDate>lastrun:
-            print("New Article")
+            if(debug):
+                print("New Article")
             title = item.title.encode('ascii',"ignore")
             link = item.link.encode('ascii',"ignore")
             return title, link
@@ -154,7 +155,8 @@ def run():
     htmlFeeds, msgFeeds = prepareEmail(masterArr)
     htmlMsg += htmlWeather+htmlFeeds+"</body></html>"
     msg += msgWeather+"\n"+msgFeeds
-    sendEmail(htmlMsg, msg)
+    if(not debug):
+        sendEmail(htmlMsg, msg)
     lastrunFile = open("lastrunFile", 'wb')
     lastrun = datetime.datetime.timetuple(datetime.datetime.now())
     pickle.dump(lastrun,lastrunFile)
