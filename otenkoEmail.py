@@ -19,7 +19,7 @@ debug = True
 lastrunFile = open("lastrunFile", 'rb')
 try:
     lastrun = pickle.load(lastrunFile)
-except EOFError:
+except:
     print("Couldn't read last run file, going with default of 1 day")
     lastrun = datetime.datetime.timetuple(datetime.datetime.now()-datetime.timedelta(1))
 lastrunFile.close()
