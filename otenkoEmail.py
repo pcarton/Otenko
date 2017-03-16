@@ -14,15 +14,15 @@ from email.mime.text import MIMEText
 from config import serverName, username, password, woeid, fromaddr, toaddr, weatherAPI, zipCode, countryCode
 from rssFeedClasses import rssFeed, rssItem
 
-debug = True
+debug = false
 
 try:
     lastrunFile = open("lastrunFile", 'rb')
     lastrun = pickle.load(lastrunFile)
     lastrunFile.close()
 except:
-    print("Couldn't read last run file, going with default of 1 day")
-    lastrun = datetime.datetime.timetuple(datetime.datetime.now()-datetime.timedelta(1))
+    print("Couldn't read last run file, going with default of 3 days")
+    lastrun = datetime.datetime.timetuple(datetime.datetime.now()-datetime.timedelta(3))
 
 rssJSON = None
 
@@ -71,7 +71,7 @@ def parseFeedItem(item):
         print(item.title.encode('ascii',"ignore"))
         print(item.link.encode('ascii',"ignore"))
     try:
-        if articleDate>lastrun:
+        if articleDate>=lastrun:
             if(debug):
                 print("New Article")
             title = item.title.encode('ascii',"ignore")
