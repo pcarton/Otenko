@@ -16,13 +16,13 @@ from rssFeedClasses import rssFeed, rssItem
 
 debug = True
 
-lastrunFile = open("lastrunFile", 'rb')
 try:
+    lastrunFile = open("lastrunFile", 'rb')
     lastrun = pickle.load(lastrunFile)
+    lastrunFile.close()
 except:
     print("Couldn't read last run file, going with default of 1 day")
     lastrun = datetime.datetime.timetuple(datetime.datetime.now()-datetime.timedelta(1))
-lastrunFile.close()
 
 rssJSON = None
 
