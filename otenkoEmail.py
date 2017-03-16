@@ -70,13 +70,16 @@ def parseFeedItem(item):
     if debug:
         print(item.title.encode('ascii',"ignore"))
         print(item.link.encode('ascii',"ignore"))
-        print(item.published_parsed.encode('ascii','ignore'))
-    if articleDate>lastrun:
-        title = item.title.encode('ascii',"ignore")
-        link = item.link.encode('ascii',"ignore")
-        return title, link
-    else:
-        return None,None
+    try:
+        if articleDate>lastrun:
+            print("New Article")
+            title = item.title.encode('ascii',"ignore")
+            link = item.link.encode('ascii',"ignore")
+            return title, link
+        else:
+            return None,None
+    except TypeError:
+        print("TypeError on comparing dates")
 
 def parseFeed(feedURL, feedName, feedNumToRead):
     feed = feedparser.parse(feedURL)
