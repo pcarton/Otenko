@@ -14,6 +14,8 @@ from email.mime.text import MIMEText
 from config import serverName, username, password, woeid, fromaddr, toaddr, weatherAPI, zipCode, countryCode
 from rssFeedClasses import rssFeed, rssItem
 
+debug = True
+
 lastrunFile = open("lastrunFile", 'rb')
 try:
     lastrun = pickle.load(lastrunFile)
@@ -63,7 +65,12 @@ def getWeatherMsgs(high,low,weather):
 
 def parseFeedItem(item):
     global lastrun
+    global debug
     articleDate = item.published_parsed
+    if debug:
+        print(item.title.encode('ascii',"ignore"))
+        print(item.link.encode('ascii',"ignore"))
+        print(item.published_parsed.encode('ascii','ignore'))
     if articleDate>lastrun:
         title = item.title.encode('ascii',"ignore")
         link = item.link.encode('ascii',"ignore")
@@ -81,6 +88,7 @@ def parseFeed(feedURL, feedName, feedNumToRead):
             if not title == None and not link == None:
                 feedObj.appendToFeed(title,link)
         except AttributeError:
+            print('Exception on item in feed: '+ feedName)
             break
         if (not feedNumToRead==-1) and len(feedObj.getItems())>feedNumToRead:
             break
