@@ -161,10 +161,10 @@ def run():
         sendEmail(htmlMsg, msg)
         lastrunFile = open("lastrunFile", 'wb')
         now =  datetime.datetime.now()
-        lastrun = datetime.datetime.timetuple(now)
+        lastrun = now.utctimetuple()
         pickle.dump(lastrun,lastrunFile)
         lastrunFile.close()
-        print("Last run at "+datetime.datetime.now().strftime("%m/%d/%Y %H:%M:%S"))
+        print("Last run at "+now.strftime("%m/%d/%Y %H:%M:%S UTC"))
 
 print("Starting")
 run()
