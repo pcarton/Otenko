@@ -24,8 +24,8 @@ try:
     lastrunFile.close()
 except:
     print("Couldn't read last run file, going with default of 3 days")
-    lastrun = datetime.datetime.now()-datetime.timedelta(3)
-print("Previous run at "+lastrun.strftime("%m/%d/%Y %H:%M:%S"))
+    lastrun = datetime.datetime.timetuple(datetime.datetime.now()-datetime.timedelta(3))
+
 rssJSON = None
 
 with open('rss-config.json', 'r+') as file:
@@ -161,11 +161,10 @@ def run():
         sendEmail(htmlMsg, msg)
         lastrunFile = open("lastrunFile", 'wb')
         now =  datetime.datetime.now()
-        #lastrun = datetime.datetime.timetuple(now)
-        lastrun = now
+        lastrun = datetime.datetime.timetuple(now)
         pickle.dump(lastrun,lastrunFile)
         lastrunFile.close()
-        print("Last run at "+now.strftime("%m/%d/%Y %H:%M:%S"))
+        print("Last run at "+datetime.datetime.now().strftime("%m/%d/%Y %H:%M:%S"))
 
 print("Starting")
 run()
