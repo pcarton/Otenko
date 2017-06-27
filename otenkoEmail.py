@@ -160,7 +160,7 @@ def run():
     if(not debug):
         sendEmail(htmlMsg, msg)
         lastrunFile = open("lastrunFile", 'wb')
-        now =  datetime.datetime.now()
+        now =  datetime.datetime.utcnow()
         lastrun = now.utctimetuple()
         pickle.dump(lastrun,lastrunFile)
         lastrunFile.close()
