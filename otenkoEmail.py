@@ -17,6 +17,7 @@ from config import serverName, username, password, woeid, fromaddr, toaddr, weat
 from rssFeedClasses import rssFeed, rssItem
 
 debug = False
+verbose = True
 
 try:
     lastrunFile = open("lastrunFile", 'rb')
@@ -67,20 +68,25 @@ def getWeatherMsgs(high,low,weather):
 
 def parseFeedItem(item):
     global lastrun
-    global debug
+    global debug, verbose
     articleDate = item.published_parsed
-    if debug:
-        print(item.title.encode('ascii',"ignore"))
-        print(item.link.encode('ascii',"ignore"))
     try:
         if articleDate>=lastrun:
-            if(debug):
-                print("New Article")
             title = item.title.encode('ascii',"ignore")
             link = item.link.encode('ascii',"ignore")
+            if verbose or debug:
+                print("New Article")
+                print(title)
+                print(link)
             return title, link
-        else:
+        elif verbose or debug:
+            print("Not adding this item as it was published befor lastrun")
+            print(item.title.encode('ascii',"ignore"))
+            print(item.link.encode('ascii',"ignore"))
+            print(articleDate)
             return None,None
+        else:
+            return None, None
     except TypeError:
         print("TypeError on comparing dates")
 
