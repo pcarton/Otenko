@@ -91,7 +91,6 @@ def parseFeedItem(item):
 
 def parseFeed(feedURL, feedName, feedNumToRead):
     feed = feedparser.parse(feedURL)
-    print("Parsed "+feedName)
     feedObj = rssFeed(feedName,None)
     for item in feed["items"]:
         try:
@@ -103,6 +102,8 @@ def parseFeed(feedURL, feedName, feedNumToRead):
             break
         if not (len(feedObj.getItems()) < feedNumToRead or feedNumToRead == -1):
             break
+
+    print("Parsed "+feedName)
     return feedObj
 
 def prepareEmail(masterArr):
