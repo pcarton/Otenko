@@ -77,7 +77,7 @@ def parseFeedItem(item):
         except AttributeError as e:
             print("No published or updated date")
     try:
-        if not articleDate is NoneType and articleDate>=lastrun:
+        if not articleDate is None and articleDate>=lastrun:
             title = item.title.encode('ascii',"ignore")
             link = item.link.encode('ascii',"ignore")
             if verbose or debug:
