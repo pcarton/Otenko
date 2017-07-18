@@ -68,9 +68,16 @@ def getWeatherMsgs(high,low,weather):
 def parseFeedItem(item):
     global lastrun
     global debug, verbose
-    articleDate = item.published_parsed
+    articleDate = None
     try:
-        if articleDate>=lastrun:
+        articleDate = item.published_parsed
+    except AttributeError as e:
+        try:
+            articleDate = item.updated_parsed
+        except AttributeError as e:
+            print("No published or updated date")
+    try:
+        if not articleDate is NoneType and articleDate>=lastrun:
             title = item.title.encode('ascii',"ignore")
             link = item.link.encode('ascii',"ignore")
             if verbose or debug:
