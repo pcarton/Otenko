@@ -33,7 +33,6 @@ with open('rss-config.json', 'r+') as file:
     rssJSON = json.load(file);
 file.close()
 
-#TODO change this to the http://openweathermap.org/api since yahoo is unreliable
 def getHighLowWeather():
     baseurl = "http://api.openweathermap.org/data/2.5/forecast/daily?zip="+zipCode+","+countryCode+"&cnt=1"
     fullurl = baseurl + "&APPID=" + weatherAPI
@@ -102,7 +101,7 @@ def parseFeed(feedURL, feedName, feedNumToRead):
         except AttributeError:
             print('Exception on item in feed: '+ feedName)
             break
-        if (not feedNumToRead==-1) and len(feedObj.getItems())>feedNumToRead:
+        if not (len(feedObj.getItems()) < feedNumToRead or feedNumToRead == -1):
             break
     return feedObj
 
