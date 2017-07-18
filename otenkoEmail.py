@@ -2,7 +2,6 @@
 
 #TODO make config in one file
 import urllib.request, urllib.error, urllib.parse, urllib.request, urllib.parse, urllib.error
-import traceback, sys
 
 import json
 import smtplib
@@ -17,7 +16,7 @@ from email.mime.text import MIMEText
 from config import serverName, username, password, woeid, fromaddr, toaddr, weatherAPI, zipCode, countryCode
 from rssFeedClasses import rssFeed, rssItem
 
-debug = False
+debug = True
 verbose = True
 
 try:
@@ -87,8 +86,9 @@ def parseFeedItem(item):
             return None,None
         else:
             return None, None
-    except TypeError:
+    except TypeError as e:
         print("TypeError on comparing dates")
+        print(e)
 
 def parseFeed(feedURL, feedName, feedNumToRead):
     feed = feedparser.parse(feedURL)
@@ -98,9 +98,9 @@ def parseFeed(feedURL, feedName, feedNumToRead):
             title, link = parseFeedItem(item)
             if not title == None and not link == None:
                 feedObj.appendToFeed(title,link)
-        except AttributeError:
+        except AttributeError as e:
             print('Exception on item in feed: '+ feedName)
-            traceback.print_exc(file=sys.stdout)
+            print(e)
             break
         if not (len(feedObj.getItems()) < feedNumToRead or feedNumToRead == -1):
             break
