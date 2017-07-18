@@ -2,6 +2,7 @@
 
 #TODO make config in one file
 import urllib.request, urllib.error, urllib.parse, urllib.request, urllib.parse, urllib.error
+import traceback, sys
 
 import json
 import smtplib
@@ -99,6 +100,7 @@ def parseFeed(feedURL, feedName, feedNumToRead):
                 feedObj.appendToFeed(title,link)
         except AttributeError:
             print('Exception on item in feed: '+ feedName)
+            traceback.print_exc(file=sys.stdout)
             break
         if not (len(feedObj.getItems()) < feedNumToRead or feedNumToRead == -1):
             break
