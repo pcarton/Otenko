@@ -33,6 +33,10 @@ with open('rss-config.json', 'r+') as file:
     rssJSON = json.load(file);
 file.close()
 
+def toDate(timestruct):
+    datetimeObj = datetime(*timestruct[0:6]) #'*identifier' puts all excess parameters into a tuple
+    return datetimeObj.date()
+
 def getHighLowWeather():
     baseurl = "http://api.openweathermap.org/data/2.5/forecast/daily?zip="+zipCode+","+countryCode+"&cnt=1"
     fullurl = baseurl + "&APPID=" + weatherAPI
@@ -79,7 +83,7 @@ def parseFeedItem(item):
     try:
         #Special Handling for xkcd since the published time seems to be the same regardless of actual publish time
         if item.link.find("https://xkcd.com/") != -1:
-            if(articleDate >= lastrun.date()):
+            if(toDate(articleDate) >= toDate(lastrun)):
                 title = item.title.encode('ascii',"ignore")
                 link = item.link.encode('ascii',"ignore")
                 if verbose or debug:
