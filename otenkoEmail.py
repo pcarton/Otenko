@@ -101,6 +101,12 @@ def parseFeedItem(item):
                         print(title)
                         print(link)
                     return title, link
+                elif verbose or debug:
+                    print("Not adding this item as it was published befor lastrun")
+                    print(item.title.encode('ascii',"ignore"))
+                    print(item.link.encode('ascii',"ignore"))
+                    print(articleDate)
+                    return None,None
             elif verbose or debug:
                 print("Not adding this item as it was published befor lastrun")
                 print(item.title.encode('ascii',"ignore"))
