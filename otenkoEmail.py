@@ -81,8 +81,16 @@ def parseFeedItem(item):
         except AttributeError as e:
             print("No published or updated date")
     try:
+        if not articleDate is None and articleDate>=lastrun:
+            title = item.title.encode('ascii',"ignore")
+            link = item.link.encode('ascii',"ignore")
+            if verbose or debug:
+                print("New Article")
+                print(title)
+                print(link)
+            return title, link
         #Special Handling for xkcd since the published time seems to be the same regardless of actual publish time
-        if item.link.find("https://xkcd.com/") != -1:
+        elif item.link.find("https://xkcd.com/") != -1:
             if(toDate(articleDate) >= toDate(lastrun)):
                 title = item.title.encode('ascii',"ignore")
                 link = item.link.encode('ascii',"ignore")
@@ -91,14 +99,6 @@ def parseFeedItem(item):
                     print(title)
                     print(link)
                 return title, link
-        elif not articleDate is None and articleDate>=lastrun:
-            title = item.title.encode('ascii',"ignore")
-            link = item.link.encode('ascii',"ignore")
-            if verbose or debug:
-                print("New Article")
-                print(title)
-                print(link)
-            return title, link
         elif verbose or debug:
             print("Not adding this item as it was published befor lastrun")
             print(item.title.encode('ascii',"ignore"))
