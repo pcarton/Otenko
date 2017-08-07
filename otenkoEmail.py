@@ -82,17 +82,8 @@ def parseFeedItem(item):
         except AttributeError as e:
             print("No published or updated date")
     try:
-        if not articleDate is None and articleDate>=lastrun:
-            title = item.title.encode('ascii',"ignore")
-            link = item.link.encode('ascii',"ignore")
-            if verbose or debug:
-                print("New Article")
-                print(title)
-                print(link)
-            return title, link
-        #Special Handling for xkcd since the published time seems to be the same regardless of actual publish time
-        elif item.link.find("https://xkcd.com/") != -1:
-            if(toDate(articleDate) >= toDate(lastrun)):
+        if not articleDate is None:
+            if articleDate>=lastrun:
                 title = item.title.encode('ascii',"ignore")
                 link = item.link.encode('ascii',"ignore")
                 if verbose or debug:
@@ -100,13 +91,25 @@ def parseFeedItem(item):
                     print(title)
                     print(link)
                 return title, link
-        elif verbose or debug:
-            print("Not adding this item as it was published befor lastrun")
-            print(item.title.encode('ascii',"ignore"))
-            print(item.link.encode('ascii',"ignore"))
-            print(articleDate)
-            return None,None
+            #Special Handling for xkcd since the published time seems to be the same regardless of actual publish time
+            elif item.link.find("https://xkcd.com/") != -1:
+                if(toDate(articleDate) >= toDate(lastrun)):
+                    title = item.title.encode('ascii',"ignore")
+                    link = item.link.encode('ascii',"ignore")
+                    if verbose or debug:
+                        print("New Article")
+                        print(title)
+                        print(link)
+                    return title, link
+            elif verbose or debug:
+                print("Not adding this item as it was published befor lastrun")
+                print(item.title.encode('ascii',"ignore"))
+                print(item.link.encode('ascii',"ignore"))
+                print(articleDate)
+                return None,None
         else:
+            if verbose or debug:
+                print("No article date in item")
             return None, None
     except TypeError as e:
         print("TypeError on comparing dates")
