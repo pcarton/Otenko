@@ -34,7 +34,8 @@ with open('rss-config.json', 'r+') as file:
 file.close()
 
 def toDate(timestruct):
-    datetimeObj = datetime(*timestruct[0:6]) #'*identifier' puts all excess parameters into a tuple
+    datetimeObj = datetime.datetime(*timestruct[0:6]) #'*identifier' puts all excess parameters into a tuple
+    print(datetimeObj.date())
     return datetimeObj.date()
 
 def getHighLowWeather():
