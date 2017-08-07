@@ -79,7 +79,7 @@ def parseFeedItem(item):
     try:
         #Special Handling for xkcd since the published time seems to be the same regardless of actual publish time
         if item.link.find("https://xkcd.com/") != -1:
-            if(articleDate.date() >= lastrun.date()):
+            if(articleDate >= lastrun.date()):
                 title = item.title.encode('ascii',"ignore")
                 link = item.link.encode('ascii',"ignore")
                 if verbose or debug:
