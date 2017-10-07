@@ -185,8 +185,11 @@ def run():
     htmlMsg = "<html><head></head><body>"
     msg = ""
     for feed in rssJSON["feeds"]:
-        tempObj = parseFeed(feed["url"], feed["name"], feed["numMostRecent"])
-        masterArr.append(tempObj)
+        try:
+            tempObj = parseFeed(feed["url"], feed["name"], feed["numMostRecent"])
+            masterArr.append(tempObj)
+        except:
+            print("Failed to parse "+feed["name"])
     try:
         high,low,weather = getHighLowWeather()
     except:
