@@ -17,7 +17,7 @@ from config import serverName, username, password, woeid, fromaddr, toaddr, weat
 from rssFeedClasses import rssFeed, rssItem
 
 debug = False
-verbose = True
+verbose = False
 
 try:
     lastrunFile = open("lastrunFile", 'rb')
