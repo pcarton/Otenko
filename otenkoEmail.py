@@ -16,8 +16,8 @@ from email.mime.text import MIMEText
 from config import serverName, username, password, woeid, fromaddr, toaddr, weatherAPI, zipCode, countryCode
 from rssFeedClasses import rssFeed, rssItem
 
-debug = True
-verbose = False
+debug = False
+verbose = True
 
 try:
     lastrunFile = open("lastrunFile", 'rb')
