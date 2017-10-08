@@ -35,7 +35,7 @@ file.close()
 
 def toDate(timestruct):
     datetimeObj = datetime.datetime(*timestruct[0:6]) #'*identifier' puts all excess parameters into a tuple
-    print(datetimeObj.date())
+    #print(datetimeObj.date())
     return datetimeObj.date()
 
 def getHighLowWeather():
@@ -191,12 +191,8 @@ def run():
     htmlMsg = "<html><head></head><body>"
     msg = ""
     for feed in rssJSON["feeds"]:
-        try:
-            tempObj = parseFeed(feed["url"], feed["name"], feed["numMostRecent"])
-        except:
-            print("Failed to parse "+feed["name"])
-        else:
-            masterArr.append(tempObj)
+        tempObj = parseFeed(feed["url"], feed["name"], feed["numMostRecent"])
+        masterArr.append(tempObj)
     try:
         high,low,weather = getHighLowWeather()
     except:
