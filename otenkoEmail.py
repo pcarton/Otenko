@@ -16,7 +16,7 @@ from email.mime.text import MIMEText
 from config import serverName, username, password, woeid, fromaddr, toaddr, weatherAPI, zipCode, countryCode
 from rssFeedClasses import rssFeed, rssItem
 
-debug = False
+debug = True
 verbose = False
 
 try:
@@ -132,6 +132,8 @@ def parseFeed(feedURL, feedName, feedNumToRead):
     else:
         feedObj = rssFeed(feedName,None)
         for item in feed["items"]:
+            if debug:
+                print(item)
             try:
                 title, link = parseFeedItem(item)
                 if not title == None and not link == None:
