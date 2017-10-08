@@ -134,7 +134,7 @@ def parseFeed(feedURL, feedName, feedNumToRead):
                 title, link = parseFeedItem(item)
                 if not title == None and not link == None:
                     feedObj.appendToFeed(title,link)
-            except AttributeError as e:
+            except (AttributeError,TypeError) as e:
                 print('Exception on item in feed: '+ feedName)
                 print(e)
                 break
