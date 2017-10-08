@@ -122,22 +122,28 @@ def parseFeedItem(item):
         print(e)
 
 def parseFeed(feedURL, feedName, feedNumToRead):
-    feed = feedparser.parse(feedURL)
-    feedObj = rssFeed(feedName,None)
-    for item in feed["items"]:
-        try:
-            title, link = parseFeedItem(item)
-            if not title == None and not link == None:
-                feedObj.appendToFeed(title,link)
-        except AttributeError as e:
-            print('Exception on item in feed: '+ feedName)
-            print(e)
-            break
-        if not (len(feedObj.getItems()) < feedNumToRead or feedNumToRead == -1):
-            break
+    try:
+        feed = feedparser.parse(feedURL)
+    except Exception as e:
+        print("Exception parsing feedURL" + feedURL)
+        print(e)
+    else:
+        feedObj = rssFeed(feedName,None)
+        for item in feed["items"]:
+            try:
+                title, link = parseFeedItem(item)
+                if not title == None and not link == None:
+                    feedObj.appendToFeed(title,link)
+            except AttributeError as e:
+                print('Exception on item in feed: '+ feedName)
+                print(e)
+                break
+            if not (len(feedObj.getItems()) < feedNumToRead or feedNumToRead == -1):
+                break
 
-    print("Parsed "+feedName)
-    return feedObj
+        print("Parsed "+feedName)
+        return feedObj
+    return
 
 def prepareEmail(masterArr):
     htmlMsg = ""
