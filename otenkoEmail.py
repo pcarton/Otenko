@@ -74,7 +74,7 @@ def parseFeedItem(item):
     global lastrun
     global debug, verbose
     articleDate = None
-    if(item == None)
+    if item == None:
         return None,None
     try:
         articleDate = item.published_parsed
