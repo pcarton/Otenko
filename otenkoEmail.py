@@ -75,6 +75,8 @@ def parseFeedItem(item):
     global debug, verbose
     articleDate = None
     if item == None:
+        if debug or verbose:
+            print("None item passed to parseFeedItem()")
         return None,None
     try:
         articleDate = item.published_parsed
