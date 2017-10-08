@@ -143,7 +143,7 @@ def parseFeed(feedURL, feedName, feedNumToRead):
 
         print("Parsed "+feedName)
         return feedObj
-    return
+    return None
 
 def prepareEmail(masterArr):
     htmlMsg = ""
@@ -193,9 +193,10 @@ def run():
     for feed in rssJSON["feeds"]:
         try:
             tempObj = parseFeed(feed["url"], feed["name"], feed["numMostRecent"])
-            masterArr.append(tempObj)
         except:
             print("Failed to parse "+feed["name"])
+        else:
+            masterArr.append(tempObj)
     try:
         high,low,weather = getHighLowWeather()
     except:
