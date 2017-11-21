@@ -198,7 +198,8 @@ def run():
     msg = ""
     for feed in rssJSON["feeds"]:
         tempObj = parseFeed(feed["url"], feed["name"], feed["numMostRecent"])
-        masterArr.append(tempObj)
+        if tempObj != None:
+            masterArr.append(tempObj)
     try:
         high,low,weather = getHighLowWeather()
     except:
